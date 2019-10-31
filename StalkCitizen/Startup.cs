@@ -41,35 +41,35 @@ namespace StalkCitizen
             services.AddDistributedMemoryCache();
             services.AddMvc(o =>
             {
-                o.Filters.Add(new AuthorizeFilter("default"));
+                //o.Filters.Add(new AuthorizeFilter("default"));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSession();
 
-            services.AddAuthorization(o =>
-            {
-                o.AddPolicy("default", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                });
-            });
+//            services.AddAuthorization(o =>
+//            {
+//                o.AddPolicy("default", policy =>
+//                {
+//                    policy.RequireAuthenticatedUser();
+//                });
+//            });
 
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddOpenIdConnect(options =>
-                {
-                    options.Authority = Configuration.Authentication.Authority;
-                    options.ClientId = Configuration.Authentication.ClientId;
-                    options.ResponseType = OpenIdConnectResponseType.IdToken;
-                    options.CallbackPath = "/auth/signin-callback";
-                    options.SignedOutRedirectUri = "https://localhost:5000/";
-                    options.TokenValidationParameters.NameClaimType = "name";
-                })
-                .AddCookie(o => o.LoginPath = "/signin");
+//            services
+//                .AddAuthentication(options =>
+//                {
+//                    options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
+//                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//                })
+//                .AddOpenIdConnect(options =>
+//                {
+//                    options.Authority = Configuration.Authentication.Authority;
+//                    options.ClientId = Configuration.Authentication.ClientId;
+//                    options.ResponseType = OpenIdConnectResponseType.IdToken;
+//                    options.CallbackPath = "/auth/signin-callback";
+//                    options.SignedOutRedirectUri = "https://localhost:5000/";
+//                    options.TokenValidationParameters.NameClaimType = "name";
+//                })
+//                .AddCookie(o => o.LoginPath = "/signin");
             
             services.AddSingleton(new LogicTokenProviderFactory(Configuration.TokenProvider));
 
